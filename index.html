@@ -3,14 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <meta name="description" content="سجاد جعفری | معمار سیستم‌های مالی و اتوماسیون.">
-    <meta name="keywords" content="سجاد جعفری, مدیر مالی, اتوماسیون مالی, رزومه">
-    <meta name="author" content="Sajjad Jafari">
-    <meta name="robots" content="index, follow">
-
     <title>سجاد جعفری | Sajjad Jafari</title>
     
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
@@ -21,149 +16,202 @@
         }
 
         :root {
-            --bg-color: #0b1120;
-            --card-bg: rgba(30, 41, 59, 0.85); /* کمی مات‌تر برای خوانایی بهتر */
-            --card-border: rgba(255, 255, 255, 0.1);
-            --accent-primary: #0ea5e9;
-            --accent-secondary: #8b5cf6;
+            --bg-dark: #0f172a;
+            --glass: rgba(15, 23, 42, 0.6);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --glass-highlight: rgba(255, 255, 255, 0.05);
+            --primary: #38bdf8; /* آبی یخی */
+            --secondary: #818cf8; /* بنفش ملایم */
             --gold: #fbbf24;
-            --text-main: #f1f5f9;
-            --text-muted: #94a3b8;
+            --text: #f8fafc;
+            --text-gray: #94a3b8;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; transition: all 0.3s ease; }
+        * { box-sizing: border-box; margin: 0; padding: 0; scroll-behavior: smooth; }
 
         body {
-            background-color: var(--bg-color); color: var(--text-main);
-            line-height: 1.9; overflow-x: hidden; font-family: 'IRANSansX', Tahoma, sans-serif; 
+            background-color: var(--bg-dark);
+            color: var(--text);
+            font-family: 'IRANSansX', Tahoma, sans-serif;
+            line-height: 1.8;
+            overflow-x: hidden;
         }
 
-        body.en-mode { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; direction: ltr; }
+        body.en-mode { font-family: 'Inter', sans-serif; direction: ltr; }
 
-        /* دکمه زبان */
+        /* --- BACKGROUND (GALAXY + WAVES) --- */
+        .fixed-bg {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2;
+            /* عکس کهکشان قدیمی (bg.jpg) */
+            background: linear-gradient(to bottom, rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.95)), url('bg.jpg');
+            background-size: cover; background-position: center; background-attachment: fixed;
+        }
+
+        /* افکت موج‌های متحرک پایین صفحه */
+        .ocean { 
+            height: 5%; width: 100%; position: fixed; bottom: 0; left: 0; z-index: -1;
+            opacity: 0.3; pointer-events: none;
+        }
+        .wave {
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 88.7'%3E%3Cpath d='M800 56.9c-155.5 0-204.9-50-405.5-49.9-200 0-250 49.9-394.5 49.9v31.8h800v-.2-31.6z' fill='%2338bdf8'/%3E%3C/svg%3E");
+            position: absolute; width: 200%; height: 100%;
+            animation: wave 10s -3s linear infinite; transform: translate3d(0, 0, 0); opacity: 0.8;
+        }
+        .wave:nth-of-type(2) {
+            bottom: 0; animation: wave 18s linear reverse infinite; opacity: 0.5;
+        }
+        .wave:nth-of-type(3) {
+            bottom: 0; animation: wave 20s -1s linear infinite; opacity: 0.5;
+        }
+
+        /* --- SCROLL REVEAL --- */
+        .reveal {
+            opacity: 0; transform: translateY(40px) scale(0.98);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+        }
+        .reveal.active { opacity: 1; transform: translateY(0) scale(1); }
+
+        .container { max-width: 1100px; margin: 0 auto; padding: 20px; position: relative; z-index: 2; }
+
+        /* --- LANGUAGE SWITCH --- */
         .lang-switch {
-            position: absolute; top: 25px; left: 25px; z-index: 100;
-            background: rgba(15, 23, 42, 0.9); border: 1px solid var(--card-border);
-            border-radius: 50px; padding: 4px;
+            position: absolute; top: 30px; left: 30px; z-index: 100;
+            background: rgba(255, 255, 255, 0.03); border: 1px solid var(--glass-border);
+            border-radius: 50px; padding: 4px; backdrop-filter: blur(10px);
         }
-        body.en-mode .lang-switch { left: auto; right: 25px; }
+        body.en-mode .lang-switch { left: auto; right: 30px; }
 
         .lang-btn {
-            background: none; border: none; color: var(--text-muted);
-            padding: 6px 16px; cursor: pointer; border-radius: 50px; font-weight: bold;
+            background: none; border: none; color: var(--text-gray);
+            padding: 8px 18px; cursor: pointer; border-radius: 50px;
+            font-weight: bold; transition: 0.3s; font-size: 0.85rem;
         }
-        .lang-btn.active { background: var(--accent-primary); color: #fff; }
+        .lang-btn.active { background: var(--primary); color: #000; box-shadow: 0 0 15px rgba(56, 189, 248, 0.6); }
 
-        .container { max-width: 1100px; margin: 0 auto; padding: 20px; position: relative; z-index: 1; }
+        /* --- HEADER --- */
+        header { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
 
-        /* هدر - تغییر مهم: استفاده از عکس لوکال */
-        header {
-            min-height: 100vh; display: flex; flex-direction: column;
-            justify-content: center; align-items: center; text-align: center; position: relative;
-            /* اینجا عکس bg.jpg لود می‌شود */
-            background-image: linear-gradient(to bottom, rgba(11, 17, 32, 0.9), #0b1120), url('bg.jpg');
-            background-size: cover; background-position: center; background-attachment: fixed;
-            width: 100vw; margin-left: calc(-50vw + 50%); padding: 20px;
-            margin-bottom: 60px; border-bottom: 1px solid var(--card-border);
+        .profile-wrapper {
+            position: relative; width: 210px; height: 210px; margin-bottom: 35px;
+            animation: float 6s ease-in-out infinite;
         }
-
-        .profile-wrapper { position: relative; width: 220px; height: 220px; margin-bottom: 30px; }
 
         .profile-img {
             width: 100%; height: 100%; border-radius: 50%;
             object-fit: cover; object-position: center top;
-            border: 4px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 0 50px rgba(14, 165, 233, 0.3);
-            background: #1e293b; position: relative; z-index: 2;
+            border: 3px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 80px rgba(56, 189, 248, 0.15);
+            background: #0f172a; position: relative; z-index: 2;
         }
 
-        .profile-decoration {
-            position: absolute; top: -10px; left: -10px; right: -10px; bottom: -10px;
-            border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 50%;
-            z-index: 1; animation: pulse 3s infinite;
+        /* حلقه‌های تکنولوژیک */
+        .tech-ring {
+            position: absolute; border-radius: 50%; border: 1px solid transparent;
+            z-index: 1;
+        }
+        .tech-ring:nth-child(1) {
+            top: -15px; left: -15px; right: -15px; bottom: -15px;
+            border-top-color: var(--primary); border-bottom-color: var(--primary);
+            animation: spin 15s linear infinite; opacity: 0.6;
+        }
+        .tech-ring:nth-child(2) {
+            top: -25px; left: -25px; right: -25px; bottom: -25px;
+            border-left-color: var(--secondary); border-right-color: var(--secondary);
+            animation: spin 20s linear infinite reverse; opacity: 0.4;
         }
 
-        h1 { font-size: 3.5rem; margin-bottom: 15px; color: #fff; font-weight: 900; }
+        h1 {
+            font-size: 4rem; margin-bottom: 10px; color: #fff; font-weight: 900; letter-spacing: -1px;
+            background: linear-gradient(to bottom, #fff, #94a3b8); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+
+        .birth-year {
+            font-size: 0.9rem; color: var(--gold); background: rgba(251, 191, 36, 0.08);
+            padding: 4px 14px; border-radius: 50px; margin-bottom: 25px;
+            border: 1px solid rgba(251, 191, 36, 0.15); display: inline-block;
+        }
 
         .tagline {
-            font-size: 1.3rem; color: #e2e8f0; margin-bottom: 40px;
-            background: rgba(15, 23, 42, 0.7); padding: 10px 25px;
-            border-radius: 12px; border: 1px solid rgba(255,255,255,0.05);
+            font-size: 1.3rem; color: var(--text-gray); margin-bottom: 40px; max-width: 700px;
         }
+        .typewriter span { color: var(--primary); font-weight: bold; border-bottom: 2px solid var(--primary); }
 
-        .typewriter span {
-            color: var(--accent-primary); font-weight: bold;
-            border-left: 3px solid var(--accent-primary); padding-left: 5px; animation: blink 0.8s infinite;
-        }
-
+        /* دکمه‌ها */
         .btn-group { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
         .cta-btn {
             display: inline-flex; align-items: center; justify-content: center;
-            padding: 15px 35px; border-radius: 12px; text-decoration: none;
-            font-weight: bold; font-size: 1rem; color: white; border: 1px solid rgba(255,255,255,0.1);
+            padding: 16px 40px; border-radius: 14px; text-decoration: none;
+            font-weight: bold; font-size: 1rem; color: white;
+            border: 1px solid rgba(255,255,255,0.05); background: rgba(255,255,255,0.02);
+            backdrop-filter: blur(10px); transition: all 0.4s ease;
         }
-        .fa-margin-left { margin-left: 10px; }
-        body.en-mode .fa-margin-left { margin-left: 0; margin-right: 10px; }
-        
-        .btn-primary { background: linear-gradient(135deg, var(--accent-primary), #3b82f6); }
-        .btn-telegram { background: linear-gradient(135deg, #229ED9, #1e88e5); }
-        .cta-btn:hover { transform: translateY(-5px); }
+        .cta-btn:hover {
+            transform: translateY(-5px); background: rgba(56, 189, 248, 0.1);
+            border-color: var(--primary); box-shadow: 0 0 30px rgba(56, 189, 248, 0.2);
+        }
+        .cta-btn i { margin: 0 10px; }
 
+        /* --- CARDS (Modern Glass) --- */
         .glass-card {
-            background: var(--card-bg); backdrop-filter: blur(16px);
-            border: 1px solid var(--card-border); border-radius: 24px;
-            padding: 50px; margin-bottom: 50px; position: relative; overflow: hidden;
+            background: var(--glass); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+            border: 1px solid var(--glass-border); border-top: 1px solid rgba(255,255,255,0.15);
+            border-radius: 28px; padding: 50px; margin-bottom: 60px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); position: relative; overflow: hidden;
+            transition: transform 0.3s;
         }
-        .card-bg-icon {
-            position: absolute; top: -20px; left: -20px; font-size: 10rem;
-            opacity: 0.03; color: #fff; transform: rotate(-15deg); pointer-events: none;
+        .glass-card::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, transparent 100%); pointer-events: none;
         }
-        body.en-mode .card-bg-icon { left: auto; right: -20px; transform: rotate(15deg); }
+        .glass-card:hover { transform: translateY(-5px); border-color: rgba(56, 189, 248, 0.3); }
 
-        h2 {
-            font-size: 1.8rem; margin-bottom: 30px; display: flex; align-items: center;
-            gap: 15px; color: var(--accent-primary); border-bottom: 1px solid rgba(255,255,255,0.05);
-            padding-bottom: 20px;
-        }
-        h2 i { color: var(--gold); font-size: 1.6rem; }
+        h2 { font-size: 1.9rem; margin-bottom: 30px; color: var(--primary); display: flex; align-items: center; gap: 15px; }
         body.en-mode h2 { flex-direction: row-reverse; }
 
-        .story-text { font-size: 1.15rem; text-align: justify; color: #e2e8f0; }
-        .highlight { color: var(--accent-primary); font-weight: bold; background: rgba(14, 165, 233, 0.1); padding: 0 5px; border-radius: 4px; }
+        .story-text { font-size: 1.1rem; text-align: justify; color: #cbd5e1; }
+        .highlight { color: #fff; font-weight: bold; text-shadow: 0 0 15px rgba(56, 189, 248, 0.4); }
 
-        .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; }
+        /* --- SKILLS (Tech Grid) --- */
+        .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; }
         .skill-box {
-            background: rgba(15, 23, 42, 0.5); border: 1px solid var(--card-border);
-            border-radius: 16px; padding: 25px; display: flex; flex-direction: column;
-            gap: 15px; transition: transform 0.3s;
+            background: rgba(15, 23, 42, 0.4); border: 1px solid var(--glass-border);
+            border-radius: 20px; padding: 30px; transition: 0.4s; position: relative;
         }
-        .skill-box:hover { transform: translateY(-5px); border-color: var(--accent-primary); background: rgba(15, 23, 42, 0.8); }
-        .skill-header { display: flex; align-items: center; gap: 15px; margin-bottom: 5px; }
-        .skill-icon-wrapper {
-            width: 50px; height: 50px; background: rgba(255,255,255,0.05);
-            border-radius: 12px; display: flex; align-items: center; justify-content: center;
-            font-size: 1.5rem; color: var(--gold);
+        .skill-box:hover {
+            transform: translateY(-8px); border-color: var(--primary);
+            background: linear-gradient(145deg, rgba(15, 23, 42, 0.6), rgba(56, 189, 248, 0.05));
         }
+        .skill-header { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; }
+        .skill-icon { font-size: 1.8rem; color: var(--gold); filter: drop-shadow(0 0 10px rgba(251, 191, 36, 0.3)); }
         .skill-title { font-size: 1.2rem; font-weight: bold; color: #fff; }
+        .skill-desc { font-size: 0.9rem; color: var(--text-gray); margin-bottom: 20px; line-height: 1.7; border-bottom: 1px solid var(--glass-border); padding-bottom: 15px; }
+        
         .skill-tags { display: flex; flex-wrap: wrap; gap: 8px; }
-        .mini-tag {
-            font-size: 0.9rem; background: rgba(255,255,255,0.03); color: var(--text-muted);
-            padding: 6px 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05);
-            display: flex; align-items: center; gap: 6px; flex-grow: 1; justify-content: center;
+        .tag {
+            font-size: 0.8rem; background: rgba(255,255,255,0.03); padding: 6px 14px;
+            border-radius: 8px; color: #e2e8f0; border: 1px solid var(--glass-border); transition: 0.3s;
         }
-        .mini-tag i { color: var(--accent-primary); margin-left: 5px; }
-        body.en-mode .mini-tag i { margin-left: 0; margin-right: 5px; }
+        .tag:hover { border-color: var(--primary); background: rgba(56, 189, 248, 0.1); color: #fff; }
 
-        footer { text-align: center; padding: 40px 0; color: var(--text-muted); font-size: 0.9rem; border-top: 1px solid var(--card-border); margin-top: 40px; }
+        footer { text-align: center; padding: 60px 0; color: var(--text-gray); font-size: 0.9rem; border-top: 1px solid var(--glass-border); }
 
-        @keyframes pulse { 0% { transform: scale(1); opacity: 0.5; } 50% { transform: scale(1.05); opacity: 0.2; } 100% { transform: scale(1); opacity: 0.5; } }
-        @keyframes blink { 50% { border-color: transparent; } }
+        @keyframes wave { 0% { margin-left: 0; } 100% { margin-left: -1600px; } }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
         .hidden { display: none !important; }
 
-        @media (max-width: 768px) { h1 { font-size: 2.5rem; } .profile-wrapper { width: 170px; height: 170px; } .glass-card { padding: 30px 20px; } }
+        @media (max-width: 768px) { h1 { font-size: 2.8rem; } .profile-wrapper { width: 170px; height: 170px; } .glass-card { padding: 30px 20px; } }
     </style>
 </head>
 <body>
+
+    <div class="fixed-bg"></div>
+
+    <div class="ocean">
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="wave"></div>
+    </div>
 
     <div class="lang-switch">
         <button class="lang-btn active" onclick="setLang('fa')">FA</button>
@@ -172,89 +220,94 @@
 
     <header>
         <div class="profile-wrapper">
-            <div class="profile-decoration"></div>
-            <img src="profile.jpg" alt="Sajjad Jafari" class="profile-img">
+            <div class="tech-ring"></div>
+            <div class="tech-ring"></div>
+            <img src="profile.png" alt="Sajjad Jafari" class="profile-img" onerror="this.src='https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=1000&auto=format&fit=crop'">
         </div>
         
-        <div id="header-fa">
+        <div id="header-fa" class="reveal active">
             <h1>سجاد جعفری</h1>
+            <div class="birth-year">متولد ۱۳۷۸</div>
             <div class="tagline">
-                <i class="fas fa-quote-right" style="color: var(--gold); margin-left: 10px;"></i>
                 معمار سیستم‌های مالی | <span class="typewriter-text-fa"></span>
             </div>
         </div>
         
-        <div id="header-en" class="hidden">
+        <div id="header-en" class="hidden reveal">
             <h1>Sajjad Jafari</h1>
+            <div class="birth-year">Born 1999</div>
             <div class="tagline">
-                <i class="fas fa-quote-left" style="color: var(--gold); margin-right: 10px;"></i>
                 Financial Systems Architect | <span class="typewriter-text-en"></span>
             </div>
         </div>
 
-        <div class="btn-group">
-            <a href="tel:09127905219" class="cta-btn btn-primary">
-                <i class="fas fa-phone-alt fa-margin-left"></i>
-                <span class="fa-text">تماس: ۰۹۱۲۷۹۰۵۲۱۹</span>
+        <div class="btn-group reveal">
+            <a href="tel:09127905219" class="cta-btn">
+                <i class="fas fa-phone-alt"></i>
+                <span class="fa-text">۰۹۱۲۷۹۰۵۲۱۹</span>
                 <span class="en-text hidden">Call Me</span>
             </a>
-            <a href="https://t.me/xosajad" class="cta-btn btn-telegram" target="_blank">
-                <i class="fab fa-telegram-plane fa-margin-left"></i>
-                <span class="fa-text">@xosajad</span>
-                <span class="en-text hidden">@xosajad</span>
+            <a href="https://t.me/xosajad" class="cta-btn" target="_blank">
+                <i class="fab fa-telegram-plane"></i>
+                <span class="fa-text">ارتباط در تلگرام</span>
+                <span class="en-text hidden">Telegram</span>
             </a>
         </div>
     </header>
 
     <div class="container">
+        
         <div id="content-fa">
-            <section class="glass-card">
-                <i class="fas fa-history card-bg-icon"></i>
-                <h2><i class="fas fa-book-open"></i> داستان من</h2>
+            <section class="glass-card reveal">
+                <h2><i class="fas fa-fingerprint"></i> درباره من</h2>
                 <div class="story-text">
-                    <p>داستان من از پشت میز دانشگاه شروع نشد؛ از همان ترم دوم، وارد میدان واقعی شدم. نقطه شروع، شرکت <span class="highlight">«تدبیر محاسب هوشمند»</span> بود؛ جایی که در هزارتوی حسابرسی شهرداری‌ها، یاد گرفتم چطور در حجم عظیمی از داده‌ها، نظم را ایجاد کنم.</p><br>
-                    <p>اما من به یک حوزه قانع نبودم. امروز، من فقط یک مدیر مالی نیستم؛ <span class="highlight">من پلی هستم میان «حسابداری» و «قدرت کدنویسی».</span></p>
+                    <p>داستان من از پشت میز دانشگاه شروع نشد؛ از همان ترم دوم، وارد میدان واقعی شدم. نقطه شروع، شرکت <span class="highlight">«تدبیر محاسب هوشمند»</span> بود. من یاد گرفتم چطور در حجم عظیمی از داده‌ها، نظم را ایجاد کنم.</p>
+                    <p style="margin-top:15px;">امروز، من فقط یک مدیر مالی نیستم؛ <span class="highlight">من پلی هستم میان «دقت حسابداری» و «قدرت تکنولوژی».</span></p>
                 </div>
             </section>
 
-            <section class="glass-card" style="border-right: 4px solid var(--accent-secondary);">
-                <i class="fas fa-cogs card-bg-icon"></i>
-                <h2><i class="fas fa-lightbulb"></i> طراحی سیستم به جای کار تکراری</h2>
+            <section class="glass-card reveal" style="border-right: 4px solid var(--secondary);">
+                <h2><i class="fas fa-lightbulb"></i> رویکرد من</h2>
                 <div class="story-text">
-                    <p>بزرگترین چالش واحدهای مالی <strong>«کارهای روتین و زمان‌بر»</strong> است. من صرفاً کدنویسی نمی‌کنم؛ بلکه <span class="highlight">سیستمی را برای شما طراحی می‌کنم</span> که اتوماسیون کامل بخش مالی شماست.</p><br>
-                    <p>من فرآیندی می‌سازم که تیم مالی شما به جای درگیری با کارهای تکراری (Data Entry)، روی <strong>تحلیل و رشد</strong> تمرکز کند.</p>
+                    <p>بزرگترین چالش واحدهای مالی <strong>«کارهای روتین و زمان‌بر»</strong> است. من صرفاً کدنویسی نمی‌کنم؛ بلکه <span class="highlight">سیستمی طراحی می‌کنم</span> که اتوماسیون کامل بخش مالی شماست.</p>
                 </div>
             </section>
 
-            <section class="glass-card">
-                <i class="fas fa-laptop-code card-bg-icon"></i>
-                <h2><i class="fas fa-layer-group"></i> مهارت‌ها و ابزارها</h2>
+            <section class="glass-card reveal">
+                <h2><i class="fas fa-cubes"></i> مهارت‌ها و تخصص‌ها</h2>
                 <div class="skills-grid">
+                    
                     <div class="skill-box">
-                        <div class="skill-header"><div class="skill-icon-wrapper"><i class="fas fa-code"></i></div><div class="skill-title">تکنولوژی و اتوماسیون</div></div>
+                        <div class="skill-header"><i class="fas fa-code skill-icon"></i><div class="skill-title">برنامه‌نویسی و دیتا</div></div>
+                        <div class="skill-desc">خودکارسازی فرآیندها با پایتون و تحلیل داده‌های حجیم.</div>
                         <div class="skill-tags">
-                            <div class="mini-tag"><i class="fab fa-python"></i> Python & Automation</div>
-                            <div class="mini-tag"><i class="fas fa-file-excel"></i> Excel & VBA</div>
-                            <div class="mini-tag"><i class="fas fa-database"></i> Big Data Analysis</div>
-                            <div class="mini-tag"><i class="fas fa-project-diagram"></i> MS Workflow</div>
+                            <span class="tag">Python</span>
+                            <span class="tag">Excel & VBA</span>
+                            <span class="tag">Big Data</span>
+                            <span class="tag">Automation</span>
                         </div>
                     </div>
+
                     <div class="skill-box">
-                        <div class="skill-header"><div class="skill-icon-wrapper"><i class="fas fa-chart-pie"></i></div><div class="skill-title">مدیریت مالی</div></div>
+                        <div class="skill-header"><i class="fas fa-laptop-file skill-icon"></i><div class="skill-title">نرم‌افزارها و سامانه‌های قانونی</div></div>
+                        <div class="skill-desc">تسلط کامل بر تمامی نرم‌افزارهای مالی حسابداری، سامانه‌های مجاز قوانین همچون سامانه مودیان، سامانه جامع تجارت‌ها، سامانه انبارها و بقیه پلتفرم‌های قوانین.</div>
                         <div class="skill-tags">
-                            <div class="mini-tag"><i class="fas fa-file-contract"></i> صورتهای مالی</div>
-                            <div class="mini-tag"><i class="fas fa-coins"></i> بهای تمام شده</div>
-                            <div class="mini-tag"><i class="fas fa-landmark"></i> سامانه مودیان</div>
-                            <div class="mini-tag"><i class="fas fa-money-check-alt"></i> حقوق و دستمزد</div>
+                            <span class="tag">سپیدار & راهکاران</span>
+                            <span class="tag">سامانه مودیان</span>
+                            <span class="tag">جامع تجارت</span>
+                            <span class="tag">جامع انبارها</span>
+                            <span class="tag">QuickBooks</span>
                         </div>
                     </div>
+
                     <div class="skill-box">
-                        <div class="skill-header"><div class="skill-icon-wrapper"><i class="fas fa-desktop"></i></div><div class="skill-title">نرم‌افزارها</div></div>
+                        <div class="skill-header"><i class="fas fa-chart-line skill-icon"></i><div class="skill-title">مدیریت مالی</div></div>
+                        <div class="skill-desc">تهیه صورت‌های مالی پیچیده، بهای تمام شده و اظهارنامه‌های مالیاتی.</div>
                         <div class="skill-tags">
-                            <div class="mini-tag">سپیدار & راهکاران</div>
-                            <div class="mini-tag">QuickBooks</div>
-                            <div class="mini-tag">Xero</div>
-                            <div class="mini-tag">سامانه جامع تجارت</div>
+                            <span class="tag">صورت‌های مالی</span>
+                            <span class="tag">بهای تمام شده</span>
+                            <span class="tag">P&L</span>
+                            <span class="tag">مالیات (VAT)</span>
                         </div>
                     </div>
                 </div>
@@ -262,43 +315,98 @@
         </div>
 
         <div id="content-en" class="hidden">
-            <section class="glass-card">
-                <i class="fas fa-history card-bg-icon"></i>
-                <h2><i class="fas fa-book-open"></i> My Journey</h2>
+            <section class="glass-card reveal">
+                <h2><i class="fas fa-fingerprint"></i> About Me</h2>
                 <div class="story-text">
-                    <p>My journey didn't start behind a desk after graduation; I entered the real field right from my second semester.</p>
+                    <p>My journey didn't start behind a desk after graduation; I entered the real field right from my second semester. Starting at <span class="highlight">"Tadbir Mohaseb Hooshmand"</span>, I learned to find order in chaos.</p>
+                    <p style="margin-top:15px;">Today, I am not just a Financial Manager; <span class="highlight">I am the bridge between Accounting Precision and Technological Power.</span></p>
                 </div>
             </section>
-            </div>
+
+            <section class="glass-card reveal" style="border-left: 4px solid var(--secondary);">
+                <h2><i class="fas fa-lightbulb"></i> My Approach</h2>
+                <div class="story-text">
+                    <p>The biggest challenge in finance is <strong>"Time-consuming Routine Tasks."</strong> I don't just write code; <span class="highlight">I design automated systems</span> that streamline your entire financial department.</p>
+                </div>
+            </section>
+
+            <section class="glass-card reveal">
+                <h2><i class="fas fa-cubes"></i> Skills & Expertise</h2>
+                <div class="skills-grid">
+                    <div class="skill-box">
+                        <div class="skill-header"><i class="fas fa-code skill-icon"></i><div class="skill-title">Tech & Data</div></div>
+                        <div class="skill-desc">Process automation using Python and Big Data analysis.</div>
+                        <div class="skill-tags">
+                            <span class="tag">Python</span>
+                            <span class="tag">Excel & VBA</span>
+                            <span class="tag">Big Data</span>
+                            <span class="tag">Automation</span>
+                        </div>
+                    </div>
+
+                    <div class="skill-box">
+                        <div class="skill-header"><i class="fas fa-laptop-file skill-icon"></i><div class="skill-title">Software & Legal Systems</div></div>
+                        <div class="skill-desc">Full mastery of all financial accounting software, compliant legal systems such as the Taxpayer System (Moadian), Comprehensive Trade System, Warehouse Systems, and other regulatory platforms.</div>
+                        <div class="skill-tags">
+                            <span class="tag">Sepidar & Rahkaran</span>
+                            <span class="tag">Taxpayer System</span>
+                            <span class="tag">Trade System</span>
+                            <span class="tag">Warehouse System</span>
+                            <span class="tag">QuickBooks</span>
+                        </div>
+                    </div>
+
+                    <div class="skill-box">
+                        <div class="skill-header"><i class="fas fa-chart-line skill-icon"></i><div class="skill-title">Financial Management</div></div>
+                        <div class="skill-desc">Preparation of complex financial statements, cost accounting, and tax returns.</div>
+                        <div class="skill-tags">
+                            <span class="tag">Financial Statements</span>
+                            <span class="tag">Cost Accounting</span>
+                            <span class="tag">P&L</span>
+                            <span class="tag">Tax & VAT</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
 
         <footer>
             <p class="fa-text">طراحی شده برای تحول سیستم‌های مالی شما</p>
-            <p style="margin-top: 10px; opacity: 0.6;">Sajjad Jafari © 2025</p>
+            <p class="en-text hidden">Designed to transform your financial systems</p>
+            <p style="margin-top: 10px; opacity: 0.5;">Sajjad Jafari © 2025</p>
         </footer>
     </div>
 
     <script>
+        // زبان
         function setLang(lang) {
             const body = document.body;
             const faContent = document.getElementById('content-fa');
             const enContent = document.getElementById('content-en');
             const faHeader = document.getElementById('header-fa');
             const enHeader = document.getElementById('header-en');
+            const faTexts = document.querySelectorAll('.fa-text');
+            const enTexts = document.querySelectorAll('.en-text');
             const btns = document.querySelectorAll('.lang-btn');
 
             if (lang === 'en') {
                 body.classList.add('en-mode'); body.setAttribute('dir', 'ltr');
-                faContent.classList.add('hidden'); enContent.classList.remove('hidden');
-                faHeader.classList.add('hidden'); enHeader.classList.remove('hidden');
+                faContent.classList.add('hidden'); faHeader.classList.add('hidden');
+                enContent.classList.remove('hidden'); enHeader.classList.remove('hidden');
+                faTexts.forEach(el => el.classList.add('hidden'));
+                enTexts.forEach(el => el.classList.remove('hidden'));
                 btns[0].classList.remove('active'); btns[1].classList.add('active');
             } else {
                 body.classList.remove('en-mode'); body.setAttribute('dir', 'rtl');
-                enContent.classList.add('hidden'); faContent.classList.remove('hidden');
-                enHeader.classList.add('hidden'); faHeader.classList.remove('hidden');
+                enContent.classList.add('hidden'); enHeader.classList.add('hidden');
+                faContent.classList.remove('hidden'); faHeader.classList.remove('hidden');
+                enTexts.forEach(el => el.classList.add('hidden'));
+                faTexts.forEach(el => el.classList.remove('hidden'));
                 btns[1].classList.remove('active'); btns[0].classList.add('active');
             }
         }
 
+        // تایپ
         const textFa = "سرعت مالی و حسابداری خودتان را دوبل کنید.";
         const textEn = "Double Your Financial & Accounting Speed.";
         let i = 0; let j = 0;
@@ -311,7 +419,21 @@
             const el = document.querySelector('.typewriter-text-en');
             if (el && j < textEn.length) { el.innerHTML += textEn.charAt(j); j++; setTimeout(typeWriterEn, 80); }
         }
-        window.onload = function() { typeWriterFa(); typeWriterEn(); };
+
+        // اسکرول انیمیشن
+        window.addEventListener('scroll', () => {
+            const reveals = document.querySelectorAll('.reveal');
+            reveals.forEach(reveal => {
+                const windowHeight = window.innerHeight;
+                const elementTop = reveal.getBoundingClientRect().top;
+                const elementVisible = 100;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveal.classList.add('active');
+                }
+            });
+        });
+
+        window.onload = function() { typeWriterFa(); typeWriterEn(); document.querySelectorAll('.reveal').forEach(r => r.classList.add('active')); };
     </script>
 </body>
 </html>
