@@ -22,7 +22,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
     
-    <!-- PWA Manifest (Inline for Single File) -->
+    <!-- PWA Manifest -->
     <link rel="manifest" href="data:application/manifest+json;base64,ewogICJuYW1lIjogIuLP2KzYp9ivINis2LnZgdix24wiLAogICJzaG9ydF9uYW1lIjogIuLP2KzYp9ivIiwKICAic3RhcnRfdXJsIjogIi4iLAogICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLAogICJiYWNrZ3JvdW5kX2NvbG9yIjogIiMwMjA2MTciLAogICJ0aGVtZV9jb2xvciI6ICIjMGVhNWU5IiwKICAiaWNvbnMiOiBbCiAgICB7CiAgICAgICJzcmMiOiAiaHR0cHM6Ly91aS1hdmF0YXJzLmNvbS9hcGkvP25hbWU9U2FqamFkK0phZmFyaSZiYWNrZ3JvdW5kPTBlYTVlOSZjb2xvcj1mZmYiLAogICAgICAic2l6ZXMiOiAiMTkyeDE5MiIsCiAgICAgICJ0eXBlIjogImltYWdlL3BuZyIKICAgIH0KICBdCn0=">
 
     <style>
@@ -130,7 +130,7 @@
 
         /* --- 4. HEADER & PROFILE --- */
         header { 
-            min-height: 85dvh; /* Dynamic Viewport Height for mobile */
+            min-height: 85dvh;
             display: flex; align-items: center; justify-content: center; position: relative; 
             padding-top: 60px;
         }
@@ -152,7 +152,7 @@
         
         .text-side { flex: 1; padding-right: 40px; text-align: right; }
         h1 { 
-            font-size: clamp(2.5rem, 5vw, 4.5rem); /* Responsive Font */
+            font-size: clamp(2.5rem, 5vw, 4.5rem);
             margin-bottom: 15px; font-weight: 900; 
             background: linear-gradient(to bottom, #fff, #cbd5e1); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
@@ -182,7 +182,10 @@
         .skill-box { background: rgba(0,0,0,0.2); border: 1px solid var(--glass-border); border-radius: 16px; padding: 20px; transition: 0.3s; }
         .skill-box:hover { border-color: var(--primary); transform: translateY(-5px); }
         .skill-header { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; color: #fff; font-weight: bold; }
-        .tag { font-size: 0.8rem; background: rgba(255,255,255,0.05); padding: 5px 10px; border-radius: 8px; color: #cbd5e1; display: inline-block; margin: 3px; }
+        
+        .tag-container { display: flex; flex-wrap: wrap; gap: 8px; }
+        .tag { font-size: 0.85rem; background: rgba(255,255,255,0.05); padding: 6px 12px; border-radius: 8px; color: #cbd5e1; border: 1px solid transparent; display: inline-block; }
+        .tag:hover { border-color: var(--secondary); color: #fff; }
 
         .lufai-hero { text-align: center; margin-bottom: 50px; }
         .lufai-logo-text { 
@@ -204,7 +207,7 @@
 
         /* --- 5. CHAT UI --- */
         .chat-container {
-            max-width: 800px; margin: 0 auto; height: 70dvh; /* Use dvh for mobile address bar */
+            max-width: 800px; margin: 0 auto; height: 70dvh;
             background: rgba(15, 23, 42, 0.75); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
             border: 1px solid rgba(255,255,255,0.1); border-radius: 30px;
             display: flex; flex-direction: column; overflow: hidden;
@@ -242,10 +245,14 @@
 
         .chat-input-area { padding: 15px; background: rgba(0,0,0,0.2); border-top: 1px solid rgba(255,255,255,0.05); flex-shrink: 0; }
         
-        .suggestion-chips { display: none; gap: 8px; overflow-x: auto; padding-bottom: 10px; scrollbar-width: none; -ms-overflow-style: none; }
+        /* CHIPS VISIBILITY FIX */
+        .suggestion-chips { gap: 8px; overflow-x: auto; padding-bottom: 10px; scrollbar-width: none; -ms-overflow-style: none; }
         .suggestion-chips::-webkit-scrollbar { display: none; }
+        
         .suggestion-chips.lang-fa { display: flex; }
         body.en-mode .suggestion-chips.lang-fa { display: none; }
+        
+        .suggestion-chips.lang-en { display: none; }
         body.en-mode .suggestion-chips.lang-en { display: flex; }
 
         .chip { 
@@ -258,7 +265,7 @@
         .input-bar { display: flex; gap: 10px; }
         .chat-input { 
             flex: 1; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); 
-            color: #fff; padding: 12px 20px; border-radius: 50px; outline: none; transition: 0.3s; font-size: 16px; /* Prevents iOS zoom */
+            color: #fff; padding: 12px 20px; border-radius: 50px; outline: none; transition: 0.3s; font-size: 16px;
         }
         .send-btn { 
             width: 45px; height: 45px; border-radius: 50%; background: var(--primary); border: none; 
@@ -282,17 +289,17 @@
             .feature-card { flex-direction: column !important; text-align: center; padding: 25px; }
             .nav-tabs { width: 95%; bottom: 15px; padding: 5px; }
             .nav-item { padding: 10px; font-size: 0.8rem; }
-            .nav-item span { display: block; font-size: 0.7rem; } /* Show text on mobile but smaller */
+            .nav-item span { display: block; font-size: 0.7rem; }
             .glass-card { padding: 25px; }
             .timeline-item { padding-right: 20px; }
             
             h1 { font-size: 2.8rem; }
             .tagline { font-size: 1.1rem; }
-            .chat-container { height: 75dvh; } /* Taller on mobile */
+            .chat-container { height: 75dvh; }
         }
         
         @media (max-width: 400px) {
-            .nav-item span { display: none; } /* Hide text on very small screens */
+            .nav-item span { display: none; }
             h1 { font-size: 2.2rem; }
         }
 
@@ -370,8 +377,8 @@
                         <span class="timeline-date lang-en">2019 - Strong Start</span>
                         <h3 class="timeline-title lang-fa">ورود به دنیای حسابرسی</h3>
                         <h3 class="timeline-title lang-en">Entering the Auditing World</h3>
-                        <p class="timeline-text lang-fa">فعالیتم را با «گروه اصلاح حساب» آغاز کردم. مسئولیت حسابرسی کلان مناطق شهرداری را بر عهده داشتم.</p>
-                        <p class="timeline-text lang-en">Started with "Account Correction Group", auditing large municipality zones.</p>
+                        <p class="timeline-text lang-fa">فعالیتم را با «گروه اصلاح حساب» آغاز کردم. مسئولیت حسابرسی کلان مناطق شهرداری را بر عهده داشتم. اینجا بود که با حجم عظیمی از داده‌ها روبرو شدم و تسلطم بر اکسل به اوج رسید.</p>
+                        <p class="timeline-text lang-en">Started with "Account Correction Group", auditing large municipality zones. Mastered Excel and big data handling here.</p>
                     </div>
                     <div class="timeline-item">
                         <div class="timeline-dot"></div>
@@ -379,8 +386,8 @@
                         <span class="timeline-date lang-en">2020 to 2022 - Experience Expansion</span>
                         <h3 class="timeline-title lang-fa">حسابدار صنایع مختلف</h3>
                         <h3 class="timeline-title lang-en">Accountant in Diverse Industries</h3>
-                        <p class="timeline-text lang-fa">به مدت ۳ سال در شرکت‌های خصوصی متنوع (تولیدی، خدماتی، بازرگانی) فعالیت کردم.</p>
-                        <p class="timeline-text lang-en">Worked for 3 years in Manufacturing, Service, and Trading sectors.</p>
+                        <p class="timeline-text lang-fa">به مدت ۳ سال در شرکت‌های خصوصی متنوع (تولیدی، خدماتی، بازرگانی) فعالیت کردم. در این دوران، چالش‌های واقعی مالیات، بیمه و بهای تمام شده را لمس کردم.</p>
+                        <p class="timeline-text lang-en">Worked for 3 years in Manufacturing, Service, and Trading sectors. Mastered real-world challenges.</p>
                     </div>
                     <div class="timeline-item">
                         <div class="timeline-dot"></div>
@@ -388,7 +395,7 @@
                         <span class="timeline-date lang-en">2022 to Present - Tech Revolution</span>
                         <h3 class="timeline-title lang-fa">دانش‌بنیان و تولد هوش مصنوعی</h3>
                         <h3 class="timeline-title lang-en">Knowledge-Based & AI Birth</h3>
-                        <p class="timeline-text lang-fa">وارد یک شرکت دانش‌بنیان چاپ دیجیتال شدم. با ترکیب VBA و پایتون، جادویی ساختم.</p>
+                        <p class="timeline-text lang-fa">وارد یک شرکت دانش‌بنیان چاپ دیجیتال شدم. با ترکیب VBA و پایتون، جادویی ساختم که کار چند روزه را در چند ثانیه انجام می‌داد.</p>
                         <p class="timeline-text lang-en">Joined a Knowledge-based company. Created automation magic using Python & VBA.</p>
                     </div>
                     <div class="timeline-item">
@@ -397,7 +404,7 @@
                         <span class="timeline-date lang-en">Near Future</span>
                         <h3 class="timeline-title lang-fa">LUFAI: اولین دستیار مالی هوش مصنوعی ایران</h3>
                         <h3 class="timeline-title lang-en">LUFAI: Iran's First AI Financial Assistant</h3>
-                        <p class="timeline-text lang-fa">اکنون به عنوان صاحب امتیاز و توسعه‌دهنده، در حال نهایی‌سازی پروژه بزرگ <strong>LUFAI</strong> هستم.</p>
+                        <p class="timeline-text lang-fa">اکنون به عنوان صاحب امتیاز و توسعه‌دهنده، در حال نهایی‌سازی پروژه بزرگ <strong>LUFAI</strong> هستم. یک دستیار هوشمند که قرار است استاندارد حسابداری در ایران را تغییر دهد.</p>
                         <p class="timeline-text lang-en">Currently finalizing <strong>LUFAI</strong> as the founder/developer.</p>
                     </div>
                 </div>
@@ -412,15 +419,33 @@
                 <div class="skills-grid">
                     <div class="skill-box">
                         <div class="skill-header"><i class="fas fa-laptop-code"></i> <span class="lang-fa">سامانه و نرم‌افزار</span><span class="lang-en">Software & Systems</span></div>
-                        <div><span class="tag">Financial Software</span><span class="tag">Taxpayer System</span><span class="tag">Trade System</span></div>
+                        <div class="tag-container">
+                            <span class="tag"><span class="lang-fa">تمامی نرم‌افزارهای مالی</span><span class="lang-en">All Financial Software</span></span>
+                            <span class="tag"><span class="lang-fa">سامانه مودیان</span><span class="lang-en">Taxpayer System</span></span>
+                            <span class="tag"><span class="lang-fa">سامانه جامع تجارت</span><span class="lang-en">Trade System</span></span>
+                            <span class="tag"><span class="lang-fa">سامانه جامع انبارها</span><span class="lang-en">Warehouse System</span></span>
+                            <span class="tag"><span class="lang-fa">پلتفرم‌های قانونی</span><span class="lang-en">Legal Platforms</span></span>
+                        </div>
                     </div>
                     <div class="skill-box">
                         <div class="skill-header"><i class="fas fa-chart-pie"></i> <span class="lang-fa">مدیریت مالی</span><span class="lang-en">Financial Management</span></div>
-                        <div><span class="tag">Tax Returns</span><span class="tag">Financial Statements</span><span class="tag">Cost Accounting</span></div>
+                        <div class="tag-container">
+                            <span class="tag"><span class="lang-fa">اظهارنامه‌های مالیاتی</span><span class="lang-en">Tax Returns</span></span>
+                            <span class="tag"><span class="lang-fa">لیست بیمه و حقوق</span><span class="lang-en">Insurance & Salary</span></span>
+                            <span class="tag"><span class="lang-fa">صورت‌های مالی</span><span class="lang-en">Financial Statements</span></span>
+                            <span class="tag"><span class="lang-fa">بهای تمام شده</span><span class="lang-en">Cost Accounting</span></span>
+                            <span class="tag"><span class="lang-fa">گزارش سود و زیان</span><span class="lang-en">P&L Reports</span></span>
+                            <span class="tag"><span class="lang-fa">جریان وجوه نقد</span><span class="lang-en">Cashflow</span></span>
+                        </div>
                     </div>
                     <div class="skill-box">
                         <div class="skill-header"><i class="fas fa-robot"></i> <span class="lang-fa">توسعه و AI</span><span class="lang-en">Development & AI</span></div>
-                        <div><span class="tag">Python Automation</span><span class="tag">Excel & VBA Pro</span><span class="tag">AI Integration</span></div>
+                        <div class="tag-container">
+                            <span class="tag">Python Automation</span>
+                            <span class="tag">Excel & VBA Pro</span>
+                            <span class="tag">AI Integration</span>
+                            <span class="tag">Data Analysis</span>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -479,6 +504,10 @@
                 </div>
                 <div id="survey-result" style="display:none; margin-top:20px; color:var(--primary);">
                     <span class="lang-fa">نظر شما ثبت شد!</span><span class="lang-en">Vote Saved!</span>
+                    <!-- Survey Stats Added Here -->
+                    <div id="survey-stats-display" style="margin-top: 10px; font-weight: bold;">
+                        👍 <span id="stat-awesome">0</span> | 🤔 <span id="stat-review">0</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -510,7 +539,7 @@
                 </div>
 
                 <div class="chat-input-area">
-                    <div class="suggestion-chips chips-fa">
+                    <div class="suggestion-chips lang-fa">
                         <div class="chip" onclick="askBot('سوابق')">📜 سوابق کاری</div>
                         <div class="chip" onclick="askBot('دقیق')">💼 خدمات دقیق</div>
                         <div class="chip" onclick="askBot('حسابداری')">💰 انجام حسابداری</div>
@@ -518,7 +547,7 @@
                         <div class="chip" onclick="askBot('مزیت')">🚀 مزیت همکاری</div>
                         <div class="chip" onclick="askBot('تطبیق')">⚡️ فیچر تطبیق</div>
                     </div>
-                    <div class="suggestion-chips chips-en">
+                    <div class="suggestion-chips lang-en">
                         <div class="chip" onclick="askBot('Experience')">📜 Experience</div>
                         <div class="chip" onclick="askBot('What Sajjad Does')">💼 Services</div>
                         <div class="chip" onclick="askBot('Accounting Service')">💰 Accounting</div>
@@ -585,8 +614,13 @@
                     }
                 });
                 
-                // Survey listener if needed, or just write
-                // We mainly just write to survey
+                // Survey listener to update UI in real-time
+                onSnapshot(surveyRef, (snap) => {
+                    if(snap.exists()) {
+                        document.getElementById('stat-awesome').innerText = snap.data().awesome || 0;
+                        document.getElementById('stat-review').innerText = snap.data().needs_review || 0;
+                    }
+                });
 
             } catch (e) { 
                 console.log("Firebase initialized silently", e); 
@@ -662,12 +696,12 @@
         window.addEventListener('resize', resize); resize(); animate();
 
         const knowledgeBase = {
-            'سوابق': `سجاد ۷ سال سابقه درخشان در شرکت‌های تولیدی، بازرگانی و خدماتی دارد.<br><strong>تخصص‌ها:</strong> سامانه مودیان، ارزش افزوده، صورت‌های مالی.`,
-            'دقیق': `کار سجاد بررسی روندهای مالی و اتوماسیون آنهاست تا خطای انسانی حذف شود.`,
-            'حسابداری': `بله، سجاد می‌تواند حسابداری شما را با سیستم‌های مدرن انجام دهد یا تیم شما را مدیریت کند.`,
-            'لوفای': `لوفای (LUFAI) اولین ایجنت حسابدار هوش مصنوعی ایران است که اسناد شما را پردازش می‌کند.`,
-            'تطبیق': `فیچر تطبیق حساب لوفای، مغایرت‌های مالی بین دو طرف حساب را در چند دقیقه پیدا و رفع می‌کند.`,
-            'contact': `برای مشاوره دقیق لطفاً با <strong>۰۹۱۲۷۹۰۵۲۱۹</strong> تماس بگیرید.`
+            'سوابق': `سجاد ۷ سال سابقه درخشان در شرکت‌های تولیدی، بازرگانی و خدماتی دارد.<br><strong>جزئیات دقیق:</strong><br>• تهیه گزارشات و ارسال ارزش افزوده و معاملات فصلی<br>• تسلط کامل بر سامانه مودیان<br>• تهیه و ارسال اظهارنامه عملکرد<br>• تهیه گزارشات مالی جامع<br>• تطبیق موارد مالیاتی سازمان<br>• ارسال و تهیه لیست بیمه و حقوق<br>• محاسبات بهای تمام شده و گردش کالا`,
+            'دقیق': `کار سجاد این است که کل روندهای مالی شرکت شما را بررسی می‌کند و هر جا نیاز باشد، عامل انسانی را حذف کرده و سیستم اتوماتیک را جایگزین می‌کند.`,
+            'حسابداری': `بله، حتما. سجاد هم می‌تواند خودش حساب‌های شرکت شما را چک و مدیریت کند، و هم می‌تواند برای شما حسابدار مسلط پیدا کند که کار شما را با سرعت و دقت تحت نظارت سیستم‌های او انجام دهد.`,
+            'لوفای': `بله، سجاد جعفری بنیان‌گذار LUFAI است. او اولین شخصی است که Agent حسابدار هوش مصنوعی را داخل ایران اجرا کرده است. لوفای یک دستیار هوشمند است که سیستم حسابداری شما برایش مهم نیست؛ هر دیتایی (عکس، PDF، اکسل) به او بدهید، کارتان را انجام می‌دهد.`,
+            'تطبیق': `اولین فیچری که آماده رونمایی است، **تطبیق حساب** است. شما گردش تفصیلی خود و طرف حساب مقابل را ارسال می‌کنید. لوفای در چند دقیقه همه چیز را بررسی می‌کند و مغایرت‌ها را اعلام می‌کند.`,
+            'contact': `برای این مورد خاص، لطفاً مستقیماً با شماره **۰۹۱۲۷۹۰۵۲۱۹** تماس بگیرید.`
         };
         const knowledgeBaseEn = {
             'Experience': `Over 7 years of experience in Tax, VAT, and Financial Statements.`,
