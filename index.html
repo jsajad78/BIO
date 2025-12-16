@@ -78,10 +78,14 @@
         body.en-mode .timeline-item { border-right: none; border-left: 2px solid var(--border); padding-right: 0; padding-left: 20px; }
         .timeline-dot { width: 12px; height: 12px; background: var(--primary); border-radius: 50%; position: absolute; top: 5px; right: -7px; }
         body.en-mode .timeline-dot { right: auto; left: -7px; }
+        .timeline-title { color: #fff; font-size: 1.3rem; margin-bottom: 5px; font-weight: bold; }
+        .timeline-date { color: var(--primary); font-size: 0.85rem; margin-bottom: 8px; display: block; }
+        .timeline-text { color: var(--text-muted); font-size: 0.95rem; }
         
         .skill-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; }
         .skill-box { background: rgba(255,255,255,0.03); padding: 20px; border-radius: 16px; border: 1px solid var(--border); transition: 0.3s; }
         .skill-box:hover { border-color: var(--primary); transform: translateY(-5px); }
+        .skill-header { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; color: #fff; font-weight: bold; }
         .tag-container { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 10px; }
         .tag { display: inline-block; background: rgba(255,255,255,0.05); padding: 5px 12px; border-radius: 8px; font-size: 0.85rem; color: #cbd5e1; border: 1px solid transparent; }
         .tag:hover { border-color: var(--secondary); color: #fff; }
@@ -188,26 +192,65 @@
             </div>
 
             <div class="glass-card">
-                <h3 class="lang-fa-only"><i class="fas fa-history"></i> مسیر من</h3>
-                <h3 class="lang-en-only"><i class="fas fa-history"></i> My Journey</h3>
+                <h3 class="lang-fa-only"><i class="fas fa-road"></i> مسیر حرفه‌ای من</h3>
+                <h3 class="lang-en-only"><i class="fas fa-road"></i> My Professional Journey</h3>
                 
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <strong style="color:var(--primary)">1398 - 1401</strong>
-                    <div class="lang-fa-only">ورود به حسابرسی کلان (شهرداری) و تسلط بر داده‌های حجیم.</div>
-                    <div class="lang-en-only">Entered macro auditing (Municipality) & big data mastery.</div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <strong style="color:var(--primary)">1401 - 1402</strong>
-                    <div class="lang-fa-only">فعالیت در صنایع تولیدی و خدماتی؛ مدیریت بهای تمام شده و مالیات.</div>
-                    <div class="lang-en-only">Manufacturing & Services sectors; Cost & Tax management.</div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <strong style="color:var(--primary)">1402 - Now</strong>
-                    <div class="lang-fa-only">تلفیق برنامه نویسی و حسابداری = خلق LUFAI.</div>
-                    <div class="lang-en-only">Coding + Accounting = Creation of LUFAI.</div>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <span class="timeline-date lang-fa-only">۱۳۹۸ - شروع قدرتمند</span>
+                        <span class="timeline-date lang-en-only">2019 - Strong Start</span>
+                        <h3 class="timeline-title lang-fa-only">ورود به دنیای حسابرسی</h3>
+                        <h3 class="timeline-title lang-en-only">Entering the Auditing World</h3>
+                        <p class="timeline-text lang-fa-only">
+                            فعالیتم را با «گروه اصلاح حساب» آغاز کردم. مسئولیت حسابرسی کلان مناطق شهرداری را بر عهده داشتم. اینجا بود که با حجم عظیمی از داده‌ها روبرو شدم و تسلطم بر اکسل به اوج رسید.
+                        </p>
+                        <p class="timeline-text lang-en-only">
+                            Started with "Account Correction Group", auditing large municipality zones. Mastered Excel and big data handling here.
+                        </p>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <span class="timeline-date lang-fa-only">۱۳۹۹ تا ۱۴۰۱ - گسترش تجربه</span>
+                        <span class="timeline-date lang-en-only">2020 to 2022 - Experience Expansion</span>
+                        <h3 class="timeline-title lang-fa-only">حسابدار صنایع مختلف</h3>
+                        <h3 class="timeline-title lang-en-only">Accountant in Diverse Industries</h3>
+                        <p class="timeline-text lang-fa-only">
+                            به مدت ۳ سال در شرکت‌های خصوصی متنوع (تولیدی، خدماتی، بازرگانی) فعالیت کردم. در این دوران، چالش‌های واقعی مالیات، بیمه و بهای تمام شده را لمس کردم.
+                        </p>
+                        <p class="timeline-text lang-en-only">
+                            Worked for 3 years in Manufacturing, Service, and Trading sectors. Mastered real-world challenges of Tax, Insurance, and Cost Accounting.
+                        </p>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <span class="timeline-date lang-fa-only">۱۴۰۱ تا اکنون - انقلاب تکنولوژی</span>
+                        <span class="timeline-date lang-en-only">2022 to Present - Tech Revolution</span>
+                        <h3 class="timeline-title lang-fa-only">دانش‌بنیان و تولد هوش مصنوعی</h3>
+                        <h3 class="timeline-title lang-en-only">Knowledge-Based & AI Birth</h3>
+                        <p class="timeline-text lang-fa-only">
+                            وارد یک شرکت دانش‌بنیان چاپ دیجیتال شدم (ابتدا حسابدار ارشد، سپس امریه سربازی). در دوران سربازی، با ظهور هوش مصنوعی، اولین کدهای اتوماسیون خودم را نوشتم. از ترکیب VBA و پایتون، جادویی ساختم که کار چند روزه را در چند ثانیه انجام می‌داد.
+                        </p>
+                        <p class="timeline-text lang-en-only">
+                            Joined a Knowledge-based company. During my service, I wrote my first automation codes using Python & VBA, creating magic in financial processing.
+                        </p>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <span class="timeline-date lang-fa-only">آینده نزدیک</span>
+                        <span class="timeline-date lang-en-only">Near Future</span>
+                        <h3 class="timeline-title lang-fa-only">LUFAI: اولین دستیار مالی هوش مصنوعی ایران</h3>
+                        <h3 class="timeline-title lang-en-only">LUFAI: Iran's First AI Financial Assistant</h3>
+                        <p class="timeline-text lang-fa-only">
+                            اکنون به عنوان صاحب امتیاز و توسعه‌دهنده، در حال نهایی‌سازی پروژه بزرگ <strong>LUFAI</strong> هستم. یک دستیار هوشمند که قرار است استاندارد حسابداری در ایران را تغییر دهد.
+                        </p>
+                        <p class="timeline-text lang-en-only">
+                            Currently finalizing <strong>LUFAI</strong> as the founder/developer. An AI agent set to change accounting standards in Iran.
+                        </p>
+                    </div>
                 </div>
             </div>
 
@@ -217,7 +260,7 @@
                 <h3 class="lang-en-only"><i class="fas fa-star"></i> Skills</h3>
                 <div class="skill-grid">
                     <div class="skill-box">
-                        <strong><i class="fas fa-laptop-code"></i> <span class="lang-fa-only">سامانه و نرم‌افزار</span><span class="lang-en-only">Software & Systems</span></strong>
+                        <div class="skill-header"><i class="fas fa-laptop-code"></i> <span class="lang-fa-only">سامانه و نرم‌افزار</span><span class="lang-en-only">Software & Systems</span></div>
                         <div class="tag-container">
                             <span class="tag">تمامی نرم‌افزارهای مالی</span>
                             <span class="tag">سامانه مودیان</span>
@@ -227,7 +270,7 @@
                         </div>
                     </div>
                     <div class="skill-box">
-                        <strong><i class="fas fa-chart-pie"></i> <span class="lang-fa-only">مدیریت مالی</span><span class="lang-en-only">Financial Management</span></strong>
+                        <div class="skill-header"><i class="fas fa-chart-pie"></i> <span class="lang-fa-only">مدیریت مالی</span><span class="lang-en-only">Financial Management</span></div>
                         <div class="tag-container">
                             <span class="tag">اظهارنامه‌های مالیاتی</span>
                             <span class="tag">لیست بیمه و حقوق</span>
@@ -238,7 +281,7 @@
                         </div>
                     </div>
                     <div class="skill-box">
-                        <strong><i class="fas fa-robot"></i> <span class="lang-fa-only">توسعه و AI</span><span class="lang-en-only">Dev & AI</span></strong>
+                        <div class="skill-header"><i class="fas fa-robot"></i> <span class="lang-fa-only">توسعه و AI</span><span class="lang-en-only">Dev & AI</span></div>
                         <div class="tag-container">
                             <span class="tag">Python Automation</span>
                             <span class="tag">Excel & VBA Pro</span>
