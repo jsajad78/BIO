@@ -3,584 +3,201 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>سجاد جعفری | در حال احداث</title>
     
-    <!-- PWA Settings -->
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="theme-color" content="#020617">
-    <link rel="manifest" href="data:application/manifest+json;base64,ewogICJuYW1lIjogIuLP2KzYp9ivINis2LnZgdix24wiLAogICJzaG9ydF9uYW1lIjogIuLP2KzYp9ivIiwKICAic3RhcnRfdXJsIjogIi4iLAogICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLAogICJiYWNrZ3JvdW5kX2NvbG9yIjogIiMwMjA2MTciLAogICJ0aGVtZV9jb2xvciI6ICIjMGVhNWU5IiwKICAiaWNvbnMiOiBbXQp9">
-
-    <title>سجاد جعفری | بنیان‌گذار LUFAI</title>
-    
+    <!-- Fonts and Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
     
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Vazirmatn', 'system-ui', 'sans-serif'],
+                        en: ['system-ui', '-apple-system', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
     <style>
-        @font-face { font-family: 'IRANSansX'; src: local('IRANSansX'), url('https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css'); }
-        
-        :root {
-            --bg-dark: #020617;
-            --primary: #0ea5e9;
-            --primary-glow: rgba(14, 165, 233, 0.4);
-            --secondary: #6366f1;
-            --accent: #d946ef;
-            --gold: #fbbf24;
-            --text: #f8fafc;
-            --text-muted: #94a3b8;
-            --glass: rgba(15, 23, 42, 0.8);
-            --border: rgba(255, 255, 255, 0.1);
-            --nav-h: 70px;
-            --safe-area-bottom: env(safe-area-inset-bottom, 20px);
+        body {
+            background-color: #020617; /* zinc-950 */
+            color: #f8fafc;
+            overflow: hidden;
+            font-family: 'Vazirmatn', sans-serif;
         }
 
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body { margin: 0; background: var(--bg-dark); color: var(--text); font-family: 'IRANSansX', 'Vazirmatn', sans-serif; overflow-x: hidden; padding-bottom: 120px; }
-        body.en-mode { direction: ltr; font-family: system-ui, -apple-system, sans-serif; }
-
-        #canvas-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; }
-
-        /* Header & Lang Switch */
-        .lang-switch { position: fixed; top: 20px; left: 20px; z-index: 100; background: var(--glass); padding: 5px; border-radius: 30px; border: 1px solid var(--border); display: flex; gap: 5px; }
-        body.en-mode .lang-switch { left: auto; right: 20px; }
-        .lang-btn { background: none; border: none; color: var(--text-muted); padding: 6px 12px; border-radius: 20px; cursor: pointer; transition: 0.3s; font-weight: bold; }
-        .lang-btn.active { background: var(--primary); color: #fff; }
-
-        /* Navigation Dock */
-        .nav-tabs { 
-            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 92%; max-width: 450px;
-            bottom: calc(10px + var(--safe-area-bottom));
-            background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(20px); border: 1px solid var(--border);
-            border-radius: 24px; display: flex; padding: 5px; z-index: 999; box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+        /* Hammer Animation */
+        @keyframes hammer-swing {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(15deg) scale(1.05); }
+            75% { transform: rotate(-15deg) scale(1.05); }
         }
-        .nav-item { flex: 1; background: none; border: none; color: var(--text-muted); padding: 10px; border-radius: 20px; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 0.75rem; transition: 0.3s; }
-        .nav-item i { font-size: 1.2rem; }
-        .nav-item.active { color: #fff; background: rgba(255,255,255,0.1); }
-
-        .container { width: 100%; max-width: 1100px; margin: 0 auto; padding: 20px; padding-top: 80px; }
-        .page-section { display: none; animation: fadeIn 0.5s ease; }
-        .page-section.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; } }
-
-        .glass-card { background: var(--glass); border: 1px solid var(--border); border-radius: 24px; padding: 30px; margin-bottom: 30px; }
-
-        /* Home */
-        .header-content { text-align: center; margin-bottom: 40px; }
-        .profile-img { width: 180px; height: 180px; border-radius: 50%; border: 3px solid var(--primary); box-shadow: 0 0 50px var(--primary-glow); margin: 0 auto 20px; display: block; object-fit: cover; }
-        h1 { font-size: 2.5rem; margin: 10px 0; background: linear-gradient(to bottom, #fff, #94a3b8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .tagline { color: var(--text-muted); font-size: 1.1rem; }
-        .cta-group { display: flex; gap: 10px; justify-content: center; margin-top: 20px; flex-wrap: wrap; }
-        .cta-btn { background: rgba(255,255,255,0.05); border: 1px solid var(--border); color: #fff; padding: 12px 24px; border-radius: 12px; text-decoration: none; display: flex; align-items: center; gap: 8px; transition: 0.3s; }
-        .cta-btn:hover { background: var(--primary); border-color: var(--primary); }
-
-        /* Timeline & Skills */
-        .timeline-item { border-right: 2px solid var(--border); padding-right: 20px; margin-bottom: 30px; position: relative; }
-        body.en-mode .timeline-item { border-right: none; border-left: 2px solid var(--border); padding-right: 0; padding-left: 20px; }
-        .timeline-dot { width: 12px; height: 12px; background: var(--primary); border-radius: 50%; position: absolute; top: 5px; right: -7px; }
-        body.en-mode .timeline-dot { right: auto; left: -7px; }
-        .timeline-title { color: #fff; font-size: 1.3rem; margin-bottom: 5px; font-weight: bold; }
-        .timeline-date { color: var(--primary); font-size: 0.85rem; margin-bottom: 8px; display: block; }
-        .timeline-text { color: var(--text-muted); font-size: 0.95rem; }
-        
-        .skill-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; }
-        .skill-box { background: rgba(255,255,255,0.03); padding: 20px; border-radius: 16px; border: 1px solid var(--border); transition: 0.3s; }
-        .skill-box:hover { border-color: var(--primary); transform: translateY(-5px); }
-        .skill-header { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; color: #fff; font-weight: bold; }
-        .tag-container { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 10px; }
-        .tag { display: inline-block; background: rgba(255,255,255,0.05); padding: 5px 12px; border-radius: 8px; font-size: 0.85rem; color: #cbd5e1; border: 1px solid transparent; }
-        .tag:hover { border-color: var(--secondary); color: #fff; }
-
-        /* LUFAI Page */
-        .lufai-hero { text-align: center; margin-bottom: 40px; }
-        .lufai-title { font-size: 3rem; font-weight: 900; letter-spacing: 5px; background: linear-gradient(to right, #6366f1, #d946ef); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        
-        .feature-card { display: flex; align-items: flex-start; gap: 20px; background: rgba(30,41,59,0.5); padding: 25px; border-radius: 20px; margin-bottom: 20px; border: 1px solid var(--border); }
-        .feature-card div:last-child { flex: 1; }
-        .feature-card.reverse { flex-direction: row-reverse; }
-        body.en-mode .feature-card.reverse { flex-direction: row; }
-        .f-icon { font-size: 2.5rem; color: var(--primary); min-width: 50px; text-align: center; margin-top: 5px; }
-        
-        /* Survey & Stats */
-        .stats-bar { display: flex; justify-content: space-between; margin-bottom: 20px; background: rgba(0,0,0,0.3); padding: 10px 20px; border-radius: 15px; font-size: 0.9rem; color: var(--text-muted); }
-        .vote-btn { 
-            flex: 1; background: rgba(255,255,255,0.05); border: 1px solid var(--border); color: #fff; 
-            padding: 15px; border-radius: 15px; cursor: pointer; transition: 0.3s; margin: 0 5px;
-            display: flex; flex-direction: column; align-items: center; gap: 8px;
-        }
-        .vote-btn:hover { background: rgba(14, 165, 233, 0.1); border-color: var(--primary); }
-        .vote-btn.disabled { opacity: 0.6; cursor: default; pointer-events: none; filter: grayscale(1); }
-        .vote-count { font-size: 0.95rem; color: var(--gold); font-weight: bold; background: rgba(0,0,0,0.3); padding: 2px 8px; border-radius: 10px; }
-
-        /* Chat UI */
-        .chat-container { height: 75vh; display: flex; flex-direction: column; border-radius: 24px; overflow: hidden; background: rgba(15, 23, 42, 0.85); border: 1px solid var(--border); }
-        .chat-header { padding: 15px; background: rgba(0,0,0,0.2); display: flex; align-items: center; gap: 10px; border-bottom: 1px solid var(--border); }
-        .chat-avatar { width: 45px; height: 45px; border-radius: 50%; border: 2px solid var(--primary); object-fit: cover; }
-        .chat-box { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 15px; }
-        .msg { max-width: 85%; padding: 12px 16px; border-radius: 18px; font-size: 0.95rem; line-height: 1.6; word-wrap: break-word; }
-        .msg.bot { align-self: flex-start; background: rgba(255,255,255,0.08); border-top-right-radius: 4px; color: #e2e8f0; }
-        .msg.user { align-self: flex-end; background: var(--primary); color: #fff; border-top-left-radius: 4px; }
-        body.en-mode .msg.bot { border-top-right-radius: 18px; border-top-left-radius: 4px; }
-        body.en-mode .msg.user { border-top-left-radius: 18px; border-top-right-radius: 4px; }
-
-        .chat-input-area { padding: 15px; background: rgba(0,0,0,0.2); border-top: 1px solid var(--border); }
-        .suggestion-chips { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 10px; scrollbar-width: none; }
-        .chip { white-space: nowrap; background: rgba(255,255,255,0.05); padding: 8px 14px; border-radius: 20px; font-size: 0.8rem; border: 1px solid var(--border); cursor: pointer; transition: 0.3s; }
-        .chip:hover { background: var(--primary); border-color: var(--primary); color: #fff; }
-        
-        .input-row { display: flex; gap: 10px; margin-top: 5px; }
-        .chat-input { flex: 1; background: rgba(255,255,255,0.05); border: 1px solid var(--border); color: #fff; padding: 12px 20px; border-radius: 25px; outline: none; font-size: 16px; }
-        .send-btn { width: 45px; height: 45px; border-radius: 50%; background: var(--primary); border: none; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; }
-
-        .hidden { display: none !important; }
-        
-        /* Language Specific Display */
-        body:not(.en-mode) .lang-en-only { display: none !important; }
-        body.en-mode .lang-fa-only { display: none !important; }
-
-        @media (min-width: 768px) {
-            .header-content { display: flex; text-align: right; align-items: center; justify-content: center; gap: 50px; }
-            body.en-mode .header-content { text-align: left; flex-direction: row-reverse; }
-            .profile-img { margin: 0; width: 250px; height: 250px; }
-            .feature-card { padding: 40px; }
+        .animate-hammer {
+            animation: hammer-swing 2.5s ease-in-out infinite;
         }
     </style>
 </head>
-<body>
+<body class="antialiased">
 
-    <canvas id="canvas-bg"></canvas>
+    <!-- Canvas Background -->
+    <canvas id="bg-canvas" class="fixed inset-0 z-0 pointer-events-none opacity-80"></canvas>
 
-    <div class="lang-switch">
-        <button class="lang-btn active" id="btn-fa" onclick="setLang('fa')">FA</button>
-        <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
+    <!-- Language Switcher -->
+    <div class="fixed top-6 right-6 z-50 flex bg-slate-900/80 backdrop-blur-xl border border-slate-700 rounded-full p-1 shadow-lg" dir="ltr">
+        <button onclick="setLang('fa')" id="btn-fa" class="px-4 py-1.5 rounded-full text-sm font-bold transition-colors bg-sky-500 text-white">FA</button>
+        <button onclick="setLang('en')" id="btn-en" class="px-4 py-1.5 rounded-full text-sm font-bold transition-colors text-slate-400 hover:text-white">EN</button>
     </div>
 
-    <div class="nav-tabs">
-        <button class="nav-item active" onclick="showPage('home')">
-            <i class="fas fa-home"></i> <span>خانه / Home</span>
-        </button>
-        <button class="nav-item" onclick="showPage('lufai')">
-            <i class="fas fa-brain"></i> <span>LUFAI</span>
-        </button>
-        <button class="nav-item" onclick="showPage('chat')">
-            <i class="fas fa-comments"></i> <span>FAQ</span>
-        </button>
-    </div>
-
-    <!-- HOME -->
-    <div id="home" class="page-section active">
-        <div class="container">
-            <div class="header-content">
-                <div>
-                    <h1 class="lang-fa-only">سجاد جعفری</h1><h1 class="lang-en-only">Sajjad Jafari</h1>
-                    <div class="tagline">
-                        <span class="lang-fa-only">خالق حسابدار هوشمند LUFAI</span>
-                        <span class="lang-en-only">Creator of LUFAI AI Accountant</span>
-                    </div>
-                    <div style="color:var(--gold); margin: 10px 0; font-size: 0.9rem;">
-                        <i class="fas fa-map-marker-alt"></i> 
-                        <span class="lang-fa-only">تهران | متولد ۱۳۷۸</span>
-                        <span class="lang-en-only">Tehran | Born 1999</span>
-                    </div>
-                    <div class="cta-group">
-                        <a href="tel:09127905219" class="cta-btn"><i class="fas fa-phone"></i> 09127905219</a>
-                        <a href="https://t.me/xosajad" class="cta-btn"><i class="fab fa-telegram"></i> Telegram</a>
-                    </div>
+    <!-- Main Content -->
+    <div id="main-container" class="relative z-10 min-h-screen flex flex-col items-center justify-center p-6 transition-all duration-500">
+        <div class="bg-slate-900/60 backdrop-blur-2xl border border-white/10 rounded-[2.5rem] p-10 md:p-16 text-center max-w-2xl w-full shadow-[0_20px_50px_rgba(0,0,0,0.5)] relative overflow-hidden group">
+            
+            <!-- Top Glow Effect -->
+            <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-1/2 bg-sky-500/10 blur-[100px] pointer-events-none transition-all duration-1000 group-hover:bg-fuchsia-500/10"></div>
+            
+            <div class="relative z-10 flex flex-col items-center">
+                <!-- Icon -->
+                <div class="animate-hammer mb-8 p-6 bg-sky-500/10 rounded-3xl border border-sky-500/30 text-sky-400 shadow-[0_0_30px_rgba(14,165,233,0.3)] inline-flex items-center justify-center">
+                    <i class="fas fa-hammer text-4xl md:text-5xl"></i>
                 </div>
-                <div>
-                    <img src="profile.png" onerror="this.src='https://ui-avatars.com/api/?name=SJ&background=0ea5e9&color=fff&size=200'" class="profile-img" alt="Sajjad">
-                </div>
-            </div>
 
-            <div class="glass-card">
-                <h3 class="lang-fa-only"><i class="fas fa-road"></i> مسیر حرفه‌ای من</h3>
-                <h3 class="lang-en-only"><i class="fas fa-road"></i> My Professional Journey</h3>
+                <!-- Text Content -->
+                <h1 id="title" class="text-4xl md:text-5xl lg:text-6xl font-black mb-6 tracking-tight bg-gradient-to-br from-white via-sky-100 to-slate-400 bg-clip-text text-transparent">
+                    سایت در حال احداث است
+                </h1>
                 
-                <div class="timeline">
-                    <div class="timeline-item">
-                        <div class="timeline-dot"></div>
-                        <span class="timeline-date lang-fa-only">۱۳۹۸ - شروع قدرتمند</span>
-                        <span class="timeline-date lang-en-only">2019 - Strong Start</span>
-                        <h3 class="timeline-title lang-fa-only">ورود به دنیای حسابرسی</h3>
-                        <h3 class="timeline-title lang-en-only">Entering the Auditing World</h3>
-                        <p class="timeline-text lang-fa-only">
-                            فعالیتم را با «گروه اصلاح حساب» آغاز کردم. مسئولیت حسابرسی کلان مناطق شهرداری را بر عهده داشتم. اینجا بود که با حجم عظیمی از داده‌ها روبرو شدم و تسلطم بر اکسل به اوج رسید.
-                        </p>
-                        <p class="timeline-text lang-en-only">
-                            Started with "Account Correction Group", auditing large municipality zones. Mastered Excel and big data handling here.
-                        </p>
-                    </div>
-
-                    <div class="timeline-item">
-                        <div class="timeline-dot"></div>
-                        <span class="timeline-date lang-fa-only">۱۳۹۹ تا ۱۴۰۱ - گسترش تجربه</span>
-                        <span class="timeline-date lang-en-only">2020 to 2022 - Experience Expansion</span>
-                        <h3 class="timeline-title lang-fa-only">حسابدار صنایع مختلف</h3>
-                        <h3 class="timeline-title lang-en-only">Accountant in Diverse Industries</h3>
-                        <p class="timeline-text lang-fa-only">
-                            به مدت ۳ سال در شرکت‌های خصوصی متنوع (تولیدی، خدماتی، بازرگانی) فعالیت کردم. در این دوران، چالش‌های واقعی مالیات، بیمه و بهای تمام شده را لمس کردم.
-                        </p>
-                        <p class="timeline-text lang-en-only">
-                            Worked for 3 years in Manufacturing, Service, and Trading sectors. Mastered real-world challenges of Tax, Insurance, and Cost Accounting.
-                        </p>
-                    </div>
-
-                    <div class="timeline-item">
-                        <div class="timeline-dot"></div>
-                        <span class="timeline-date lang-fa-only">۱۴۰۱ تا اکنون - انقلاب تکنولوژی</span>
-                        <span class="timeline-date lang-en-only">2022 to Present - Tech Revolution</span>
-                        <h3 class="timeline-title lang-fa-only">دانش‌بنیان و تولد هوش مصنوعی</h3>
-                        <h3 class="timeline-title lang-en-only">Knowledge-Based & AI Birth</h3>
-                        <p class="timeline-text lang-fa-only">
-                            وارد یک شرکت دانش‌بنیان چاپ دیجیتال شدم (ابتدا حسابدار ارشد، سپس امریه سربازی). در دوران سربازی، با ظهور هوش مصنوعی، اولین کدهای اتوماسیون خودم را نوشتم. از ترکیب VBA و پایتون، جادویی ساختم که کار چند روزه را در چند ثانیه انجام می‌داد.
-                        </p>
-                        <p class="timeline-text lang-en-only">
-                            Joined a Knowledge-based company. During my service, I wrote my first automation codes using Python & VBA, creating magic in financial processing.
-                        </p>
-                    </div>
-
-                    <div class="timeline-item">
-                        <div class="timeline-dot"></div>
-                        <span class="timeline-date lang-fa-only">آینده نزدیک</span>
-                        <span class="timeline-date lang-en-only">Near Future</span>
-                        <h3 class="timeline-title lang-fa-only">LUFAI: اولین دستیار مالی هوش مصنوعی ایران</h3>
-                        <h3 class="timeline-title lang-en-only">LUFAI: Iran's First AI Financial Assistant</h3>
-                        <p class="timeline-text lang-fa-only">
-                            اکنون به عنوان صاحب امتیاز و توسعه‌دهنده، در حال نهایی‌سازی پروژه بزرگ <strong>LUFAI</strong> هستم. یک دستیار هوشمند که قرار است استاندارد حسابداری در ایران را تغییر دهد.
-                        </p>
-                        <p class="timeline-text lang-en-only">
-                            Currently finalizing <strong>LUFAI</strong> as the founder/developer. An AI agent set to change accounting standards in Iran.
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- SKILLS SECTION FIXED -->
-            <div class="glass-card">
-                <h3 class="lang-fa-only"><i class="fas fa-star"></i> تخصص‌ها</h3>
-                <h3 class="lang-en-only"><i class="fas fa-star"></i> Skills</h3>
-                <div class="skill-grid">
-                    <div class="skill-box">
-                        <div class="skill-header"><i class="fas fa-laptop-code"></i> <span class="lang-fa-only">سامانه و نرم‌افزار</span><span class="lang-en-only">Software & Systems</span></div>
-                        <div class="tag-container">
-                            <span class="tag">تمامی نرم‌افزارهای مالی</span>
-                            <span class="tag">سامانه مودیان</span>
-                            <span class="tag">سامانه جامع تجارت</span>
-                            <span class="tag">سامانه جامع انبارها</span>
-                            <span class="tag">پلتفرم‌های قانونی</span>
-                        </div>
-                    </div>
-                    <div class="skill-box">
-                        <div class="skill-header"><i class="fas fa-chart-pie"></i> <span class="lang-fa-only">مدیریت مالی</span><span class="lang-en-only">Financial Management</span></div>
-                        <div class="tag-container">
-                            <span class="tag">اظهارنامه‌های مالیاتی</span>
-                            <span class="tag">لیست بیمه و حقوق</span>
-                            <span class="tag">صورت‌های مالی</span>
-                            <span class="tag">بهای تمام شده</span>
-                            <span class="tag">گزارش سود و زیان</span>
-                            <span class="tag">جریان وجوه نقد</span>
-                        </div>
-                    </div>
-                    <div class="skill-box">
-                        <div class="skill-header"><i class="fas fa-robot"></i> <span class="lang-fa-only">توسعه و AI</span><span class="lang-en-only">Dev & AI</span></div>
-                        <div class="tag-container">
-                            <span class="tag">Python Automation</span>
-                            <span class="tag">Excel & VBA Pro</span>
-                            <span class="tag">AI Integration</span>
-                            <span class="tag">Data Analysis</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- LUFAI PAGE -->
-    <div id="lufai" class="page-section">
-        <div class="container">
-            <div class="lufai-hero">
-                <div class="lufai-title">LUFAI</div>
-                <p class="lang-fa-only" style="color:var(--text-muted)">اولین ایجنت هوشمند حسابداری در ایران</p>
-                <p class="lang-en-only" style="color:var(--text-muted)">Iran's First AI Accounting Agent</p>
-            </div>
-
-            <div class="feature-card">
-                <div class="f-icon"><i class="fas fa-brain"></i></div>
-                <div>
-                    <h3 class="lang-fa-only">لوفای (LUFAI) چیست؟</h3><h3 class="lang-en-only">What is LUFAI?</h3>
-                    <p class="lang-fa-only" style="font-size:0.95rem">
-                        لوفای یک ایجنت هوشمند است که محدود به سیستم حسابداری خاصی نیست. شما می‌توانید اطلاعات مالی خود را به صورت <strong>عکس، فایل PDF یا اکسل</strong> برای او ارسال کنید. لوفای داده‌ها را تحلیل کرده و عملیات مورد نظر شما را انجام می‌دهد.
-                    </p>
-                    <p class="lang-en-only" style="font-size:0.95rem">
-                        LUFAI is an AI agent independent of accounting software. Send your data as <strong>Image, PDF, or Excel</strong>. LUFAI analyzes the data and performs financial operations autonomously.
-                    </p>
-                </div>
-            </div>
-
-            <div class="feature-card reverse">
-                <div class="f-icon"><i class="fas fa-sync"></i></div>
-                <div>
-                    <h3 class="lang-fa-only">فیچر: تطبیق حساب</h3><h3 class="lang-en-only">Feature: Reconciliation</h3>
-                    <p class="lang-fa-only" style="font-size:0.95rem">
-                        اولین فیچری که آماده رونمایی است. گردش حساب دو طرف را بدهید، لوفای در چند دقیقه مغایرت‌ها را پیدا می‌کند تا حساب صفر شود. 
-                        <br><span style="color:var(--gold)">* قابلیت تطبیق همزمان ۵ شرکت برای جاهای شلوغ!</span>
-                    </p>
-                    <p class="lang-en-only" style="font-size:0.95rem">
-                        The first ready feature. Provide ledgers of both parties, and LUFAI finds discrepancies in minutes to zero out the balance.
-                        <br><span style="color:var(--gold)">* Can reconcile 5 companies simultaneously!</span>
-                    </p>
-                </div>
-            </div>
-
-            <!-- Stats & Survey -->
-            <div class="glass-card" style="text-align:center; padding: 20px;">
-                <div class="stats-bar">
-                    <span><i class="fas fa-eye"></i> <span id="view-counter">...</span> <span class="lang-fa-only">بازدید</span><span class="lang-en-only">Views</span></span>
-                    <span>Feedback</span>
-                </div>
-                
-                <h4 class="lang-fa-only">نظر شما درباره لوفای؟</h4>
-                <h4 class="lang-en-only">Your thought on LUFAI?</h4>
-                
-                <div style="display:flex; margin-top:15px;">
-                    <div class="vote-btn" id="btn-like" onclick="vote('like')">
-                        <i class="fas fa-thumbs-up" style="font-size:1.5rem; color:var(--primary)"></i>
-                        <span class="lang-fa-only">عالیه</span><span class="lang-en-only">Awesome</span>
-                        <span class="vote-count" id="count-like">0</span>
-                    </div>
-                    <div class="vote-btn" id="btn-check" onclick="vote('check')">
-                        <i class="fas fa-clipboard-list" style="font-size:1.5rem; color:var(--gold)"></i>
-                        <span class="lang-fa-only">نیاز به بررسی</span><span class="lang-en-only">Review</span>
-                        <span class="vote-count" id="count-check">0</span>
-                    </div>
-                </div>
-                <p id="vote-msg" style="color:var(--primary); font-size:0.8rem; margin-top:10px; display:none;">
-                    <span class="lang-fa-only">نظر شما ثبت شد</span><span class="lang-en-only">Vote Saved</span>
+                <p id="desc" class="text-slate-400 text-lg md:text-xl mb-12 leading-relaxed max-w-lg mx-auto">
+                    ما در حال طراحی و توسعه یک پلتفرم قدرتمند هستیم. به زودی با امکانات بی‌نظیر بازمی‌گردیم.
                 </p>
-            </div>
-        </div>
-    </div>
 
-    <!-- CHAT PAGE -->
-    <div id="chat" class="page-section">
-        <div class="container" style="padding-top:20px; height:100vh; padding-bottom:140px;">
-            <div class="chat-container">
-                <div class="chat-header">
-                    <img src="profile.png" onerror="this.src='https://ui-avatars.com/api/?name=AI&background=0ea5e9&color=fff'" class="chat-avatar">
-                    <div>
-                        <strong class="lang-fa-only">دستیار هوشمند سجاد</strong>
-                        <strong class="lang-en-only">Sajjad's AI Assistant</strong>
-                        <div style="font-size:0.7rem; color:var(--primary)">Online</div>
-                    </div>
-                </div>
-                
-                <div class="chat-box" id="chat-box">
-                    <div class="msg bot">
-                        <span class="lang-fa-only">سلام! 👋 من تمام اطلاعات کاری و پروژه‌های سجاد رو دارم. هر سوالی دارید بپرسید، کامل و دقیق جواب میدم.</span>
-                        <span class="lang-en-only">Hello! 👋 I have all of Sajjad's professional info. Ask me anything about his work and projects.</span>
-                    </div>
-                </div>
-
-                <div class="chat-input-area">
-                    <div class="suggestion-chips lang-fa-only">
-                        <div class="chip" onclick="ask('سوابق')">سوابق کاری</div>
-                        <div class="chip" onclick="ask('دقیق')">خدمات دقیق</div>
-                        <div class="chip" onclick="ask('حسابداری')">انجام حسابداری</div>
-                        <div class="chip" onclick="ask('لوفای')">لوفای چیه؟</div>
-                        <div class="chip" onclick="ask('مزیت')">مزیت همکاری</div>
-                        <div class="chip" onclick="ask('تطبیق')">فیچر تطبیق</div>
-                    </div>
-                    <div class="suggestion-chips lang-en-only">
-                        <div class="chip" onclick="ask('Experience')">Experience</div>
-                        <div class="chip" onclick="ask('Services')">Detailed Services</div>
-                        <div class="chip" onclick="ask('Accounting')">Accounting</div>
-                        <div class="chip" onclick="ask('LUFAI')">What is LUFAI?</div>
-                        <div class="chip" onclick="ask('Reconciliation')">Reconciliation</div>
-                    </div>
-                    
-                    <div class="input-row">
-                        <input type="text" id="chat-input" class="chat-input" placeholder="">
-                        <button class="send-btn" onclick="sendMsg()"><i class="fas fa-paper-plane"></i></button>
-                    </div>
+                <!-- Loader -->
+                <div class="w-full flex items-center justify-center gap-4">
+                    <i class="fas fa-circle-notch fa-spin text-fuchsia-400 text-2xl"></i>
+                    <span id="loading-text" class="text-sm font-medium tracking-widest text-fuchsia-400 uppercase">
+                        در حال آماده‌سازی...
+                    </span>
                 </div>
             </div>
         </div>
     </div>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, setDoc, updateDoc, increment, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-
-        const firebaseConfig = JSON.parse(__firebase_config);
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-
-        const viewDoc = doc(db, 'artifacts', appId, 'public', 'data', 'global_stats', 'views');
-        const voteDoc = doc(db, 'artifacts', appId, 'public', 'data', 'global_stats', 'votes');
-
-        async function startApp() {
-            try {
-                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                    await signInWithCustomToken(auth, __initial_auth_token);
-                } else {
-                    await signInAnonymously(auth);
-                }
-
-                const visited = localStorage.getItem('lufai_visit_v5');
-                if(!visited) {
-                    localStorage.setItem('lufai_visit_v5', 'true');
-                    try { await updateDoc(viewDoc, { count: increment(1) }); } 
-                    catch { await setDoc(viewDoc, { count: 1 }); }
-                }
-
-                onSnapshot(viewDoc, (snap) => {
-                    document.getElementById('view-counter').innerText = snap.exists() ? snap.data().count : 1;
-                });
-
-                onSnapshot(voteDoc, (snap) => {
-                    if(snap.exists()) {
-                        const d = snap.data();
-                        document.getElementById('count-like').innerText = d.like || 0;
-                        document.getElementById('count-check').innerText = d.check || 0;
-                    }
-                });
-
-                if(localStorage.getItem('lufai_voted')) lockButtons();
-
-            } catch (e) { console.error(e); document.getElementById('view-counter').innerText = "120+"; }
-        }
-
-        window.vote = async function(type) {
-            if(localStorage.getItem('lufai_voted')) return;
-            localStorage.setItem('lufai_voted', 'true');
-            lockButtons();
-            document.getElementById('vote-msg').style.display = 'block';
-            try { await updateDoc(voteDoc, { [type]: increment(1) }); } 
-            catch { await setDoc(voteDoc, { [type]: 1 }, { merge: true }); }
-        }
-
-        function lockButtons() {
-            document.getElementById('btn-like').classList.add('disabled');
-            document.getElementById('btn-check').classList.add('disabled');
-        }
-
-        startApp();
-    </script>
-
+    <!-- Logic Scripts -->
     <script>
-        // Chatbot Knowledge Base (Exact Persian & English)
-        const kb = {
+        // Language Data
+        const translations = {
             fa: {
-                'سوابق': 'سجاد ۷ سال سابقه درخشان در شرکت‌های مختلف تولیدی، بازرگانی و خدماتی دارد.<br><strong>جزئیات دقیق:</strong><br>• تهیه گزارشات و ارسال ارزش افزوده و معاملات فصلی<br>• تسلط کامل بر سامانه مودیان<br>• تهیه و ارسال اظهارنامه عملکرد<br>• تهیه گزارشات مالی جامع (فروش، خرید، هزینه‌یابی، سود و زیان، گردش وجوه نقد)<br>• چک کردن روندهای مالی شرکت‌ها بر حسب نیازشان<br>• تطبیق موارد مالیاتی سازمان با سیستم حسابداری داخلی<br>• ارسال و تهیه لیست بیمه و حقوق<br>• محاسبات بهای تمام شده و گردش کالا و مواد',
-                
-                'خدمات': 'کار سجاد این است که کل روندهای مالی شرکت شما را بررسی می‌کند و هر جا نیاز باشد، عامل انسانی را حذف کرده و سیستم اتوماتیک را جایگزین می‌کند.<br>البته این مورد نیازمند سرمایه‌گذاری از سمت کارفرماست تا کل فرآیندهای مالی برحسب سیستم حسابداری خودشان اتوماتیک شود.',
-                
-                'مزیت': 'بزرگترین مزیت این کار، دسترسی آنلاین و لحظه‌ای مدیر عامل و مدیر مالی به اطلاعات حیاتی است تا بتوانند بهتر تصمیم‌گیری کنند. همچنین سرعت بالای کاری سجاد در پردازش اطلاعات، مزیت رقابتی اصلی اوست.',
-                
-                'حسابداری': 'بله، حتما. سجاد هم می‌تواند خودش حساب‌های شرکت شما را چک و مدیریت کند، و هم می‌تواند برای شما حسابدار مسلط پیدا کند که کار شما را با سرعت و دقت تحت نظارت سیستم‌های او انجام دهد. در اصل، سجاد به شما خدمات جامع مالی می‌دهد.',
-                
-                'لوفای': 'بله، سجاد جعفری بنیان‌گذار LUFAI است. او اولین شخصی است که Agent حسابدار هوش مصنوعی را داخل ایران اجرا (Run) کرده است. لوفای یک دستیار هوشمند است که سیستم حسابداری شما برایش مهم نیست؛ هر دیتایی (عکس، PDF، اکسل) به او بدهید، کارتان را انجام می‌دهد.',
-                
-                'تطبیق': 'اولین فیچری که آماده رونمایی است، <strong>تطبیق حساب</strong> است. شما گردش تفصیلی خود و طرف حساب مقابل را ارسال می‌کنید. به جای ساعت‌ها وقت گذاشتن برای چک کردن دستی فاکتورها، لوفای در چند دقیقه همه چیز را بررسی می‌کند و مغایرت‌ها را اعلام می‌کند تا مانده حساب‌ها صفر شود. این سیستم می‌تواند همزمان ۵ شرکت را با هم تطبیق دهد و برای جاهای بزرگ با رکوردهای بالا عالی است.',
-                
-                'default': 'برای پاسخ به این سوال خاص یا شروع همکاری، لطفاً مستقیماً با شماره <strong>۰۹۱۲۷۹۰۵۲۱۹</strong> تماس بگیرید.'
+                title: 'سایت در حال احداث است',
+                desc: 'ما در حال طراحی و توسعه یک پلتفرم قدرتمند هستیم. به زودی با امکانات بی‌نظیر بازمی‌گردیم.',
+                loading: 'در حال آماده‌سازی...',
+                dir: 'rtl',
+                font: 'font-sans'
             },
             en: {
-                'Experience': 'Sajjad has 7 years of brilliant experience in manufacturing, trading, and service companies. Details: VAT, Seasonal Reports, Taxpayer System, Financial Statements, Cost Accounting, and Material Flow.',
-                'Services': 'Sajjad audits your financial processes, removes manual human errors, and implements automated systems. This gives managers real-time access to vital data.',
-                'Accounting': 'Yes. Sajjad can manage your accounts directly or recruit/supervise an accountant for you using his high-speed systems.',
-                'LUFAI': 'Sajjad is the founder of LUFAI, Iran\'s first AI Accountant Agent. It works independently of your software, processing Images, PDFs, or Excel files.',
-                'Reconciliation': 'The first ready feature is Auto Reconciliation. Send detailed ledgers of both parties, and LUFAI finds discrepancies in minutes to zero out the balance. It can handle 5 companies simultaneously.',
-                'default': 'For this specific query, please call <strong>09127905219</strong> directly.'
+                title: 'Website Under Construction',
+                desc: 'We are designing and developing a powerful platform. We will be back soon with incredible features.',
+                loading: 'PREPARING...',
+                dir: 'ltr',
+                font: 'font-en'
             }
         };
 
-        let lang = 'fa';
-
-        function setLang(l) {
-            lang = l;
-            document.body.classList.toggle('en-mode', l === 'en');
-            document.getElementById('btn-fa').classList.toggle('active', l === 'fa');
-            document.getElementById('btn-en').classList.toggle('active', l === 'en');
+        // Language Switcher Logic
+        function setLang(lang) {
+            const data = translations[lang];
             
-            document.querySelectorAll('.lang-fa-only').forEach(el => el.style.display = (l==='fa' ? 'block' : 'none'));
-            document.querySelectorAll('.lang-en-only').forEach(el => el.style.display = (l==='en' ? 'block' : 'none'));
+            // Update texts
+            document.getElementById('title').innerText = data.title;
+            document.getElementById('desc').innerText = data.desc;
+            document.getElementById('loading-text').innerText = data.loading;
             
-            // Fix Flex display for chips/timeline
-            document.querySelector('.suggestion-chips.lang-fa-only').style.display = (l==='fa' ? 'flex' : 'none');
-            document.querySelector('.suggestion-chips.lang-en-only').style.display = (l==='en' ? 'flex' : 'none');
+            // Update direction and font
+            const main = document.getElementById('main-container');
+            main.setAttribute('dir', data.dir);
+            document.body.className = `antialiased ${data.font}`;
+
+            // Update Buttons
+            const btnFa = document.getElementById('btn-fa');
+            const btnEn = document.getElementById('btn-en');
+
+            if(lang === 'fa') {
+                btnFa.className = "px-4 py-1.5 rounded-full text-sm font-bold transition-colors bg-sky-500 text-white";
+                btnEn.className = "px-4 py-1.5 rounded-full text-sm font-bold transition-colors text-slate-400 hover:text-white";
+            } else {
+                btnEn.className = "px-4 py-1.5 rounded-full text-sm font-bold transition-colors bg-sky-500 text-white";
+                btnFa.className = "px-4 py-1.5 rounded-full text-sm font-bold transition-colors text-slate-400 hover:text-white";
+            }
         }
 
-        function showPage(id) {
-            document.querySelectorAll('.page-section').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
-            
-            const idx = id === 'home' ? 0 : id === 'lufai' ? 1 : 2;
-            document.querySelectorAll('.nav-item')[idx].classList.add('active');
-            window.scrollTo(0,0);
-        }
-
-        function ask(key) {
-            const txt = document.getElementById('chat-input').value = key;
-            sendMsg();
-        }
-
-        function sendMsg() {
-            const inp = document.getElementById('chat-input');
-            const txt = inp.value.trim();
-            if(!txt) return;
-
-            const box = document.getElementById('chat-box');
-            box.innerHTML += `<div class="msg user">${txt}</div>`;
-            inp.value = '';
-
-            setTimeout(() => {
-                const db = lang === 'fa' ? kb.fa : kb.en;
-                let ans = db.default;
-                // Keywords matching
-                const k = txt.toLowerCase();
-                if(k.includes('سوابق') || k.includes('experience')) ans = lang==='fa'?kb.fa['سوابق']:kb.en['Experience'];
-                else if(k.includes('خدمات') || k.includes('دقیق') || k.includes('services')) ans = lang==='fa'?kb.fa['خدمات']:kb.en['Services'];
-                else if(k.includes('حسابداری') || k.includes('accounting')) ans = lang==='fa'?kb.fa['حسابداری']:kb.en['Accounting'];
-                else if(k.includes('لوفای') || k.includes('lufai')) ans = lang==='fa'?kb.fa['لوفای']:kb.en['LUFAI'];
-                else if(k.includes('تطبیق') || k.includes('reconciliation')) ans = lang==='fa'?kb.fa['تطبیق']:kb.en['Reconciliation'];
-                else if(k.includes('مزیت')) ans = lang==='fa'?kb.fa['مزیت']:kb.en['Services'];
-
-                box.innerHTML += `<div class="msg bot">${ans}</div>`;
-                box.scrollTop = box.scrollHeight;
-            }, 600);
-        }
-
-        // Animation
-        const canvas = document.getElementById('canvas-bg');
+        // Canvas Particles Animation (Cyan & Magenta theme)
+        const canvas = document.getElementById('bg-canvas');
         const ctx = canvas.getContext('2d');
         let pts = [];
-        function init() {
-            canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+
+        function initCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
             pts = [];
-            for(let i=0; i<40; i++) pts.push({x:Math.random()*canvas.width, y:Math.random()*canvas.height, vx:(Math.random()-.5), vy:(Math.random()-.5)});
-        }
-        function draw() {
-            ctx.clearRect(0,0,canvas.width,canvas.height);
-            ctx.fillStyle = '#0ea5e9';
-            pts.forEach(p => {
-                p.x+=p.vx; p.y+=p.vy;
-                if(p.x<0||p.x>canvas.width) p.vx*=-1; if(p.y<0||p.y>canvas.height) p.vy*=-1;
-                ctx.beginPath(); ctx.arc(p.x,p.y,2,0,Math.PI*2); ctx.fill();
-                pts.forEach(p2 => {
-                    let d = Math.hypot(p.x-p2.x, p.y-p2.y);
-                    if(d<150) {
-                        ctx.strokeStyle = `rgba(14,165,233,${1-d/150})`;
-                        ctx.beginPath(); ctx.moveTo(p.x,p.y); ctx.lineTo(p2.x,p2.y); ctx.stroke();
-                    }
+            // Create particles
+            for(let i = 0; i < 50; i++) {
+                pts.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    vx: (Math.random() - 0.5) * 1.2,
+                    vy: (Math.random() - 0.5) * 1.2,
+                    color: Math.random() > 0.5 ? '#0ea5e9' : '#d946ef' // Sky or Fuchsia
                 });
+            }
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            pts.forEach((p, index) => {
+                // Move
+                p.x += p.vx;
+                p.y += p.vy;
+                
+                // Bounce
+                if(p.x < 0 || p.x > canvas.width) p.vx *= -1;
+                if(p.y < 0 || p.y > canvas.height) p.vy *= -1;
+
+                // Draw Particle
+                ctx.fillStyle = p.color;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, 2, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Draw Connections
+                for(let j = index + 1; j < pts.length; j++) {
+                    let p2 = pts[j];
+                    let dx = p.x - p2.x;
+                    let dy = p.y - p2.y;
+                    let dist = Math.sqrt(dx*dx + dy*dy);
+                    
+                    if(dist < 150) {
+                        ctx.beginPath();
+                        ctx.strokeStyle = p.color === '#0ea5e9' 
+                            ? `rgba(14, 165, 233, ${1 - dist/150})` 
+                            : `rgba(217, 70, 239, ${1 - dist/150})`;
+                        ctx.lineWidth = 1;
+                        ctx.moveTo(p.x, p.y);
+                        ctx.lineTo(p2.x, p2.y);
+                        ctx.stroke();
+                    }
+                }
             });
             requestAnimationFrame(draw);
         }
-        window.onresize = init; init(); draw();
+
+        window.addEventListener('resize', initCanvas);
+        initCanvas();
+        draw();
     </script>
 </body>
 </html>
